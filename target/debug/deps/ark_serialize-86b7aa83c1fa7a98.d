@@ -1,0 +1,11 @@
+C:\Users\Naisah\ProofPay\target\debug\deps\ark_serialize-86b7aa83c1fa7a98.d: C:\Users\Naisah\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ark-serialize-0.4.2\src\lib.rs C:\Users\Naisah\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ark-serialize-0.4.2\src\error.rs C:\Users\Naisah\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ark-serialize-0.4.2\src\flags.rs C:\Users\Naisah\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ark-serialize-0.4.2\src\impls.rs C:\Users\Naisah\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ark-serialize-0.4.2\src\../README.md
+
+C:\Users\Naisah\ProofPay\target\debug\deps\libark_serialize-86b7aa83c1fa7a98.rlib: C:\Users\Naisah\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ark-serialize-0.4.2\src\lib.rs C:\Users\Naisah\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ark-serialize-0.4.2\src\error.rs C:\Users\Naisah\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ark-serialize-0.4.2\src\flags.rs C:\Users\Naisah\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ark-serialize-0.4.2\src\impls.rs C:\Users\Naisah\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ark-serialize-0.4.2\src\../README.md
+
+C:\Users\Naisah\ProofPay\target\debug\deps\libark_serialize-86b7aa83c1fa7a98.rmeta: C:\Users\Naisah\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ark-serialize-0.4.2\src\lib.rs C:\Users\Naisah\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ark-serialize-0.4.2\src\error.rs C:\Users\Naisah\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ark-serialize-0.4.2\src\flags.rs C:\Users\Naisah\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ark-serialize-0.4.2\src\impls.rs C:\Users\Naisah\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ark-serialize-0.4.2\src\../README.md
+
+C:\Users\Naisah\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ark-serialize-0.4.2\src\lib.rs:
+C:\Users\Naisah\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ark-serialize-0.4.2\src\error.rs:
+C:\Users\Naisah\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ark-serialize-0.4.2\src\flags.rs:
+C:\Users\Naisah\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ark-serialize-0.4.2\src\impls.rs:
+C:\Users\Naisah\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\ark-serialize-0.4.2\src\../README.md:
