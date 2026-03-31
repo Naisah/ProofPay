@@ -64,7 +64,7 @@ The app will launch at `http://localhost:5173`.
 
 ---
 
-## 📖 Usage Guide (Hackathon Demo Flow)
+## 📖 Usage Guide 
 
 ![ProofPay Landing](screenshots/main-screen.png)
 
