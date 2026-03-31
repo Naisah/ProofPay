@@ -15,7 +15,7 @@ export function BuyerPortal({ onBack }: { onBack: () => void }) {
   // Setup scanner
   useEffect(() => {
     if (isScanning && step === 1) {
-      const scanner = new Html5QrcodeScanner('reader', { fps: 10, qrbox: { width: 250, height: 250 } }, false);
+      const scanner = new Html5QrcodeScanner('reader', { fps: 30 }, false);
       scanner.render(
         (text) => {
           try {
