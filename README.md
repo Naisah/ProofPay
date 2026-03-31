@@ -7,10 +7,10 @@ A small seller in Manila accepting bank or e-wallet transfers (e.g., GCash) cann
 **ProofPay solves this** by letting a buyer initiate a payment that logs an unchangeable transaction record with a `PENDING` status on the Stellar blockchain. This status automatically updates to `SETTLED` via a Soroban smart contract, allowing the seller to instantly verify authenticity and finality.
 
 ## Smart Contract Address
-**Contract ID:** `CBDYVDXXLMJ5FSSPVXBF6QGQPLVAIVL4LQSJILPGUNE5VQGBGYXVAQ4D`
+**Contract ID:** `CA3PLEVPIVLO2GCJDOA3M4GPR5MSGSENNQDGPH3JTVBVK27PKYDEZVFM`
 
 ## Stellar Expert Link
-[View on Stellar Expert (Testnet)](https://stellar.expert/explorer/testnet/contract/CBDYVDXXLMJ5FSSPVXBF6QGQPLVAIVL4LQSJILPGUNE5VQGBGYXVAQ4D)
+[View on Stellar Expert (Testnet)](https://stellar.expert/explorer/testnet/contract/CA3PLEVPIVLO2GCJDOA3M4GPR5MSGSENNQDGPH3JTVBVK27PKYDEZVFM)
 
 ### Deployed Contract Screenshot
 ![Stellar Expert Contract](screenshots/contract-screenshot.png)

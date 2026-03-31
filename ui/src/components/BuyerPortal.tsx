@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Camera, Check, ShieldAlert, CreditCard, Clock } from 'lucide-react';
 import { Html5QrcodeScanner } from 'html5-qrcode';
-import { createPayment, confirmPayment, getPaymentStatus } from '../stellar';
+import { createPayment, confirmPayment, getPaymentStatus, refundPayment } from '../stellar';
 
 export function BuyerPortal({ onBack }: { onBack: () => void }) {
   const [orderId, setOrderId] = useState('');
+  const [sellerId, setSellerId] = useState<string | null>(null);
   const [amount, setAmount] = useState<number>(0);
   const [step, setStep] = useState<1 | 2 | 3>(1); // 1 = Scan/Entry, 2 = Confirm & Create, 3 = Settle
   const [isScanning, setIsScanning] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // Setup scanner when activated
+  // Setup scanner
   useEffect(() => {
     if (isScanning && step === 1) {
       const scanner = new Html5QrcodeScanner('reader', { fps: 10, qrbox: { width: 250, height: 250 } }, false);
@@ -22,6 +23,7 @@ export function BuyerPortal({ onBack }: { onBack: () => void }) {
             if (data.orderId && data.amount) {
               setOrderId(data.orderId);
               setAmount(data.amount);
+              if (data.seller) setSellerId(data.seller);
               setIsScanning(false);
               scanner.clear();
               setStep(2);
@@ -30,9 +32,7 @@ export function BuyerPortal({ onBack }: { onBack: () => void }) {
             setError('Invalid QR Code format.');
           }
         },
-        (err) => {
-          // ignore scan errors, they happen every frame a QR isn't found
-        }
+        (err) => { /* ignore */ }
       );
       return () => { scanner.clear(); };
     }
@@ -50,8 +50,7 @@ export function BuyerPortal({ onBack }: { onBack: () => void }) {
     setLoading(true);
     setError('');
     try {
-      // Amount in contract is i128 representing units. For simplicity we just use the number exactly.
-      await createPayment(orderId, 'buyer', BigInt(amount));
+      await createPayment(orderId, sellerId, BigInt(amount));
       setStep(3);
     } catch (e: any) {
       setError('Transaction failed: ' + e.message);
@@ -68,6 +67,19 @@ export function BuyerPortal({ onBack }: { onBack: () => void }) {
       onBack();
     } catch (e: any) {
       setError('Confirmation failed: ' + e.message);
+    }
+    setLoading(false);
+  };
+
+  const cancelRefund = async () => {
+    setLoading(true);
+    setError('');
+    try {
+      await refundPayment(orderId);
+      alert('Payment Intent officially Cancelled/Refunded on-chain!');
+      onBack();
+    } catch (e: any) {
+      setError('Refund failed: ' + e.message);
     }
     setLoading(false);
   };
@@ -181,14 +193,25 @@ export function BuyerPortal({ onBack }: { onBack: () => void }) {
               </p>
             </div>
 
-            <button 
-              className="btn-primary" 
-              onClick={confirmReceipt} 
-              disabled={loading}
-              style={{ width: '100%', backgroundColor: 'var(--accent-secondary)', color: 'white' }}
-            >
-              {loading ? 'Confirming...' : 'Simulate GCash Receipt (Sets SETTLED)'}
-            </button>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <button 
+                className="btn-primary" 
+                onClick={confirmReceipt} 
+                disabled={loading}
+                style={{ width: '100%', backgroundColor: 'var(--accent-secondary)', color: 'white' }}
+              >
+                {loading ? 'Confirming...' : 'Simulate GCash Receipt (Sets SETTLED)'}
+              </button>
+
+              <button 
+                className="btn-secondary" 
+                onClick={cancelRefund} 
+                disabled={loading}
+                style={{ width: '100%', color: '#ef4444' }}
+              >
+                {loading ? 'Processing...' : 'Cancel / Refund Intent (Sets REFUNDED)'}
+              </button>
+            </div>
           </div>
         )}
 

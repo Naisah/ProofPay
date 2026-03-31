@@ -49,13 +49,16 @@ export async function getPaymentStatus(orderId: string) {
 }
 
 // For write operations, the simulation is done by the Client, then we sign and send
-export async function createPayment(orderId: string, _buyerInfo: string, amount: bigint) {
+export async function createPayment(orderId: string, sellerId: string | null, amount: bigint) {
   const address = await connectWallet();
   if (!address) throw new Error("Wallet not connected");
 
+  // Fallback to random testnet address if seller not properly simulated for UI hack
+  const sellerAddress = sellerId || 'GBEVD4I6OIVJFW4IIGD5R3H7L6DOKC2AHSAYXGTY6C3S62X4C5XCY24U';
+
   // Call contract method (this simulates it and returns AssembledTransaction)
   const tx = await proofPayClient.create_payment(
-    { order_id: orderId, buyer: address, amount },
+    { order_id: orderId, seller: sellerAddress, buyer: address, amount, valid_for_secs: BigInt(900) }, // 900 secs = 15 mins expiration
     { publicKey: address }
   );
   
@@ -77,6 +80,27 @@ export async function confirmPayment(orderId: string) {
   if (!address) throw new Error("Wallet not connected");
 
   const tx = await proofPayClient.confirm_payment(
+    { order_id: orderId },
+    { publicKey: address }
+  );
+  
+  const result = await tx.signAndSend({
+    signTransaction: async (xdr: string) => {
+      const signedXdr = await signTransaction(xdr, {
+        networkPassphrase: "Test SDF Network ; September 2015",
+      });
+      return signedXdr;
+    }
+  });
+
+  return result;
+}
+
+export async function refundPayment(orderId: string) {
+  const address = await connectWallet();
+  if (!address) throw new Error("Wallet not connected");
+
+  const tx = await proofPayClient.refund_payment(
     { order_id: orderId },
     { publicKey: address }
   );

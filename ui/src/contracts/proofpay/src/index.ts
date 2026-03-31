@@ -34,14 +34,22 @@ if (typeof window !== "undefined") {
 export const networks = {
   testnet: {
     networkPassphrase: "Test SDF Network ; September 2015",
-    contractId: "CBDYVDXXLMJ5FSSPVXBF6QGQPLVAIVL4LQSJILPGUNE5VQGBGYXVAQ4D",
+    contractId: "CA3PLEVPIVLO2GCJDOA3M4GPR5MSGSENNQDGPH3JTVBVK27PKYDEZVFM",
   }
 } as const
+
+export const Errors = {
+  1: {message:"PaymentExpired"},
+  2: {message:"AlreadySettled"},
+  3: {message:"AlreadyRefunded"}
+}
 
 
 export interface Payment {
   amount: i128;
   buyer: string;
+  expires_at: u64;
+  seller: string;
   status: string;
 }
 
@@ -54,12 +62,17 @@ export interface Client {
   /**
    * Construct and simulate a create_payment transaction. Returns an `AssembledTransaction` object which will have a `result` field containing the result of the simulation. If this transaction changes contract state, you will need to call `signAndSend()` on the returned object.
    */
-  create_payment: ({order_id, buyer, amount}: {order_id: string, buyer: string, amount: i128}, options?: MethodOptions) => Promise<AssembledTransaction<null>>
+  create_payment: ({order_id, seller, buyer, amount, valid_for_secs}: {order_id: string, seller: string, buyer: string, amount: i128, valid_for_secs: u64}, options?: MethodOptions) => Promise<AssembledTransaction<null>>
+
+  /**
+   * Construct and simulate a refund_payment transaction. Returns an `AssembledTransaction` object which will have a `result` field containing the result of the simulation. If this transaction changes contract state, you will need to call `signAndSend()` on the returned object.
+   */
+  refund_payment: ({order_id}: {order_id: string}, options?: MethodOptions) => Promise<AssembledTransaction<Result<void>>>
 
   /**
    * Construct and simulate a confirm_payment transaction. Returns an `AssembledTransaction` object which will have a `result` field containing the result of the simulation. If this transaction changes contract state, you will need to call `signAndSend()` on the returned object.
    */
-  confirm_payment: ({order_id}: {order_id: string}, options?: MethodOptions) => Promise<AssembledTransaction<null>>
+  confirm_payment: ({order_id}: {order_id: string}, options?: MethodOptions) => Promise<AssembledTransaction<Result<void>>>
 
 }
 export class Client extends ContractClient {
@@ -79,16 +92,19 @@ export class Client extends ContractClient {
   }
   constructor(public readonly options: ContractClientOptions) {
     super(
-      new ContractSpec([ "AAAAAQAAAAAAAAAAAAAAB1BheW1lbnQAAAAAAwAAAAAAAAAGYW1vdW50AAAAAAALAAAAAAAAAAVidXllcgAAAAAAABMAAAAAAAAABnN0YXR1cwAAAAAAEQ==",
+      new ContractSpec([ "AAAABAAAAAAAAAAAAAAABUVycm9yAAAAAAAAAwAAAAAAAAAOUGF5bWVudEV4cGlyZWQAAAAAAAEAAAAAAAAADkFscmVhZHlTZXR0bGVkAAAAAAACAAAAAAAAAA9BbHJlYWR5UmVmdW5kZWQAAAAAAw==",
+        "AAAAAQAAAAAAAAAAAAAAB1BheW1lbnQAAAAABQAAAAAAAAAGYW1vdW50AAAAAAALAAAAAAAAAAVidXllcgAAAAAAABMAAAAAAAAACmV4cGlyZXNfYXQAAAAAAAYAAAAAAAAABnNlbGxlcgAAAAAAEwAAAAAAAAAGc3RhdHVzAAAAAAAR",
         "AAAAAAAAAAAAAAALZ2V0X3BheW1lbnQAAAAAAQAAAAAAAAAIb3JkZXJfaWQAAAARAAAAAQAAB9AAAAAHUGF5bWVudAA=",
-        "AAAAAAAAAAAAAAAOY3JlYXRlX3BheW1lbnQAAAAAAAMAAAAAAAAACG9yZGVyX2lkAAAAEQAAAAAAAAAFYnV5ZXIAAAAAAAATAAAAAAAAAAZhbW91bnQAAAAAAAsAAAAA",
-        "AAAAAAAAAAAAAAAPY29uZmlybV9wYXltZW50AAAAAAEAAAAAAAAACG9yZGVyX2lkAAAAEQAAAAA=" ]),
+        "AAAAAAAAAAAAAAAOY3JlYXRlX3BheW1lbnQAAAAAAAUAAAAAAAAACG9yZGVyX2lkAAAAEQAAAAAAAAAGc2VsbGVyAAAAAAATAAAAAAAAAAVidXllcgAAAAAAABMAAAAAAAAABmFtb3VudAAAAAAACwAAAAAAAAAOdmFsaWRfZm9yX3NlY3MAAAAAAAYAAAAA",
+        "AAAAAAAAAAAAAAAOcmVmdW5kX3BheW1lbnQAAAAAAAEAAAAAAAAACG9yZGVyX2lkAAAAEQAAAAEAAAPpAAAD7QAAAAAAAAAD",
+        "AAAAAAAAAAAAAAAPY29uZmlybV9wYXltZW50AAAAAAEAAAAAAAAACG9yZGVyX2lkAAAAEQAAAAEAAAPpAAAD7QAAAAAAAAAD" ]),
       options
     )
   }
   public readonly fromJSON = {
     get_payment: this.txFromJSON<Payment>,
         create_payment: this.txFromJSON<null>,
-        confirm_payment: this.txFromJSON<null>
+        refund_payment: this.txFromJSON<Result<void>>,
+        confirm_payment: this.txFromJSON<Result<void>>
   }
 }
