@@ -71,6 +71,9 @@ export function SellerPortal({ onBack }: { onBack: () => void }) {
   };
 
   const resetOrder = () => {
+    if (status === 'WAITING' && orderId) {
+      saveOrderToHistory(orderId, amount, 'CANCELED');
+    }
     setOrderId('');
     setAmountInput('');
     setAmount(0);
@@ -150,7 +153,7 @@ export function SellerPortal({ onBack }: { onBack: () => void }) {
                            <span style={{ marginLeft: '1rem', color: 'var(--text-secondary)' }}>₱{o.amount.toLocaleString()}</span>
                          </div>
                          <div style={{
-                            color: o.status === 'SETTLED' ? '#10b981' : o.status === 'REFUNDED' ? '#ef4444' : '#f59e0b',
+                            color: o.status === 'SETTLED' ? '#10b981' : (o.status === 'REFUNDED' || o.status === 'CANCELED') ? '#ef4444' : '#f59e0b',
                             fontWeight: 'bold'
                          }}>
                             {o.status}
@@ -170,7 +173,7 @@ export function SellerPortal({ onBack }: { onBack: () => void }) {
             </p>
 
             <div style={{ backgroundColor: 'white', padding: '1.5rem', borderRadius: '16px', display: 'inline-block', marginBottom: '2rem' }}>
-              <QRCodeSVG value={JSON.stringify({ orderId, amount, seller: sellerId })} size={200} />
+              <QRCodeSVG value={JSON.stringify({ orderId, amount, seller: sellerId })} size={200} bgColor="#ffffff" fgColor="#000000" includeMargin={true} />
             </div>
 
             <div style={{ marginBottom: '2rem' }}>
@@ -228,7 +231,7 @@ export function SellerPortal({ onBack }: { onBack: () => void }) {
             
             {status === 'WAITING' && (
                <div className="animate-fade-in" style={{ marginTop: '2rem' }}>
-                  <button onClick={resetOrder} style={{ background: 'none', border: 'none', color: 'var(--accent-primary)', textDecoration: 'underline', cursor: 'pointer' }}>
+                  <button onClick={resetOrder} style={{ background: 'none', border: 'none', color: '#ef4444', textDecoration: 'underline', cursor: 'pointer' }}>
                     Cancel & Edit Amount
                   </button>
                </div>
