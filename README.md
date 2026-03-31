@@ -18,8 +18,14 @@ A small seller in Manila accepting bank or e-wallet transfers (e.g., GCash) cann
 ### Deployed Contract Screenshot
 ![Stellar Expert Contract](screenshots/contract-screenshot.png)
 
+## 🚀 Hackathon Features (Advanced Add-ons)
+- **15-Minute Expirations:** The smart contract automatically rejects any payment attempts on stale QR codes older than 15 minutes, adding crucial cryptographic security.
+- **Dispute & Refund Logic:** Allows buyers to simulate cancelling a pending intent on the blockchain (setting status permanently to `REFUNDED`), triggering real-time UI updates for both parties.
+- **Order History Dashboard:** The Seller Portal locally caches all generated orders, displaying a live-updating table of recent transaction states (`WAITING`, `PENDING`, `SETTLED`, `CANCELED`).
+- **Confetti Settlement Visualizer:** Integrating `react-confetti` to trigger a massive full-screen celebration precisely when the Smart Contract confirms a successful settlement.
+
 ## Features & Technologies Used
-- **Smart Contracts:** Rust-based Soroban contracts to handle state transitions (`WAITING` ➔ `PENDING` ➔ `SETTLED`).
+- **Smart Contracts:** Rust-based Soroban contracts to handle state transitions (`WAITING` ➔ `PENDING` ➔ `SETTLED` ➔ `REFUNDED`).
 - **Blockchain:** Stellar network for ultra-fast, low-cost verifiable transactions.
 - **Frontend Stack:** React, Vite, and Vanilla CSS (Glassmorphism design).
 - **Wallet Integration:** @stellar/freighter-api for direct browser signing.
