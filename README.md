@@ -13,8 +13,7 @@ A small seller in Manila accepting bank or e-wallet transfers (e.g., GCash) cann
 [View on Stellar Expert (Testnet)](https://stellar.expert/explorer/testnet/contract/CBDYVDXXLMJ5FSSPVXBF6QGQPLVAIVL4LQSJILPGUNE5VQGBGYXVAQ4D)
 
 ### Deployed Contract Screenshot
-![Stellar Expert Contract](contract-screenshot.png)
-> **Note:** Make sure to save a screenshot of the Stellar Expert page as `contract-screenshot.png` in this repository to satisfy the hackathon requirement!
+![Stellar Expert Contract](screenshots/contract-screenshot.png)
 
 ## Features & Technologies Used
 - **Smart Contracts:** Rust-based Soroban contracts to handle state transitions (`WAITING` ➔ `PENDING` ➔ `SETTLED`).
@@ -67,11 +66,21 @@ The app will launch at `http://localhost:5173`.
 
 ## 📖 Usage Guide (Hackathon Demo Flow)
 
+![ProofPay Landing](screenshots/main-screen.png)
+
 To demonstrate ProofPay, we recommend opening two browser windows side-by-side to simulate the Seller (merchant tablet) and the Buyer (customer phone).
 
 1. **Wallet Setup:** Ensure your Freighter Wallet is toggled to the **Test Net** and that your account is funded with test XLM (use the Faucet button inside the wallet).
 2. **The Seller Side:** In window 1, navigate to the **Seller Portal**. Type in the amount for the item you are selling and generate the ProofPay QR code. The status will sit at `WAITING`.
+<br />
+<img src="screenshots/seller-screen.png" width="400" />
+<br />
+
 3. **The Buyer Side:** In window 2, navigate to the **Buyer Portal**. Use the camera scanner to scan the QR code (or manually type the Order ID and Amount).
+<br />
+<img src="screenshots/buyer-screen.png" width="400" />
+<br />
+
 4. **Initiate Payment:** The buyer clicks "Send Payment". Freighter will pop up. Sign the transaction. Once confirmed on-chain, the Seller's screen will instantly update to `PENDING` (Yellow).
 5. **Simulate GCash Settlement:** To demonstrate what happens when the money actually arrives at the bank/GCash account, the buyer clicks **Simulate GCash Receipt**. This sends the final `confirm_payment` transaction on-chain.
 6. **Finality:** The Seller's screen turns Green (`SETTLED`), and the merchant hands over the goods securely—no screenshot needed!
