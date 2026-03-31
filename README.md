@@ -18,7 +18,7 @@ A small seller in Manila accepting bank or e-wallet transfers (e.g., GCash) cann
 ### Deployed Contract Screenshot
 ![Stellar Expert Contract](screenshots/contract-screenshot.png)
 
-## 🚀 Hackathon Features (Advanced Add-ons)
+## Features
 - **15-Minute Expirations:** The smart contract automatically rejects any payment attempts on stale QR codes older than 15 minutes, adding crucial cryptographic security.
 - **Dispute & Refund Logic:** Allows buyers to simulate cancelling a pending intent on the blockchain (setting status permanently to `REFUNDED`), triggering real-time UI updates for both parties.
 - **Order History Dashboard:** The Seller Portal locally caches all generated orders, displaying a live-updating table of recent transaction states (`WAITING`, `PENDING`, `SETTLED`, `CANCELED`).
