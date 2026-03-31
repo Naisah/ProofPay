@@ -144,7 +144,15 @@ export function SellerPortal({ onBack }: { onBack: () => void }) {
 
             {recentOrders.length > 0 && (
                <div style={{ marginTop: '3rem', textAlign: 'left', borderTop: '1px solid var(--border-color)', paddingTop: '2rem' }}>
-                 <h3 style={{ fontSize: '1.2rem', marginBottom: '1rem', color: 'var(--text-secondary)' }}>Recent Orders</h3>
+                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                   <h3 style={{ fontSize: '1.2rem', margin: 0, color: 'var(--text-secondary)' }}>Recent Orders</h3>
+                   <button 
+                     onClick={() => { localStorage.removeItem('proofpay_orders'); setRecentOrders([]); }} 
+                     style={{ background: 'none', border: 'none', color: '#ef4444', textDecoration: 'underline', cursor: 'pointer', fontSize: '0.9rem' }}
+                   >
+                     Clear History
+                   </button>
+                 </div>
                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                    {recentOrders.map(o => (
                       <div key={o.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '0.75rem', backgroundColor: 'var(--bg-tertiary)', borderRadius: '8px', fontSize: '0.9rem' }}>
